@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react"
 
+const BASE_URL = 'https://kevprofiles-api.herokuapp.com/api/profiles'
+
 export const useProfiles = () => {
   const [profiles, setProfiles] = useState([])
 
   useEffect(() => {
     (async function () {
-      let response = await fetch('http://localhost:8080/api/profiles')
+      let response = await fetch(BASE_URL)
       setProfiles(await response.json())
     })()
   }, [])
 
   const deleteProfile = async (id, setLoader) => {
     setLoader(true)
-    await fetch(`http://localhost:8080/api/profiles/${id}` , {
+    await fetch(`${BASE_URL}/${id}` , {
       method: 'DELETE'
     })
     const newState = profiles.filter(profile => profile._id !== id)
@@ -22,7 +24,7 @@ export const useProfiles = () => {
 
   const createProfile = async (profile, setLoader) => {
     setLoader(true)
-    const res = await fetch(`http://localhost:8080/api/profiles`, {
+    const res = await fetch(BASE_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -40,7 +42,7 @@ export const useProfiles = () => {
 
   const updateProfile = async (profile, setLoader) => {
     setLoader(true)
-    const res = await fetch(`http://localhost:8080/api/profiles/${profile._id}`, {
+    const res = await fetch(`${BASE_URL}/${profile._id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
