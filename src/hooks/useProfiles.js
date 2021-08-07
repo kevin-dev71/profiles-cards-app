@@ -37,8 +37,26 @@ export const useProfiles = () => {
   // TODO handleError
   setLoader(false)
   }
+
+  const updateProfile = async (profile, setLoader) => {
+    setLoader(true)
+    const res = await fetch(`http://localhost:8080/api/profiles/${profile._id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(profile)
+  })
+
+  const data = await res.json()
+  if(!data.error){    
+    setProfiles([...profiles.filter(item => item._id !== profile?._id), data])
+  } 
+  // TODO handleError
+  setLoader(false)
+  }
   
   return {
-    profiles, deleteProfile, createProfile
+    profiles, deleteProfile, createProfile, updateProfile
   }
 }

@@ -8,14 +8,14 @@ import Loader from "./components/Loader"
 import { useProfiles } from "./hooks/useProfiles"
 
 function App() {
-  const { profiles, deleteProfile, createProfile } = useProfiles()
+  const { profiles, deleteProfile, createProfile, updateProfile } = useProfiles()
   const [loader, setLoader] = useState(false)
 
   const renderList = () => {
     return (<>
       <AddProfileCard createProfile={createProfile} setLoader={setLoader} />
           {profiles.map((profile) => {
-            return <ProfileCard key={profile._id} profile={profile} deleteProfile={deleteProfile} setLoader={setLoader} />
+            return <ProfileCard key={profile._id} profile={profile} deleteProfile={deleteProfile} setLoader={setLoader} updateProfile={updateProfile} />
           })}
     </>)
   }
