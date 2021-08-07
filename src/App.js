@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css"
+import { useState } from 'react'
+
+import ProfileCard from "./components/ProfileCard"
+import AddProfileCard from "./components/AddProfileCard"
+import Loader from "./components/Loader"
+
+import { useProfiles } from "./hooks/useProfiles"
 
 function App() {
+  const { profiles, deleteProfile, createProfile } = useProfiles()
+  const [loader, setLoader] = useState(false)
+
+  const renderList = () => {
+    return (<>
+      <AddProfileCard createProfile={createProfile} setLoader={setLoader} />
+          {profiles.map((profile) => {
+            return <ProfileCard key={profile._id} profile={profile} deleteProfile={deleteProfile} setLoader={setLoader} />
+          })}
+    </>)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <div className="drop">
+        <div className="drop__container">
+          { loader ? <Loader /> : renderList() }
+          
+        </div>
+      </div>
+    </>
+  )
 }
 
-export default App;
+export default App
